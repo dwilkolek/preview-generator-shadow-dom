@@ -1,0 +1,488 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Getting Started</title>
+</head>
+
+<body>
+    <script>
+        window.translationNamespaces = {
+            cep: 'http://localhost:8080/lang/metadata-de.json',
+            sb: 'http://localhost:8080/lang/selectionBuilder-de.json',
+            rest: 'http://localhost:8080/translate'
+        }
+    </script>
+    <script src="bundle.js"></script>
+    <!-- <style>
+      body * {
+        background:rgba(255, 0, 0, 0.1) !important;
+      }
+    </style> -->
+    <!-- <div class='translated'>test</div> -->
+    <style>
+        .container {
+            width: 250px;
+            overflow: hidden;
+            margin: 20px;
+            padding: 20px;
+            float:left;
+            border: 1px solid palevioletred;
+        }
+    </style>
+    <div class="container">
+        <selection-preview progressive-translations="false">
+            <template>
+                [
+                {
+                "attributes": {
+                "name": "Untitled Container"
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Group",
+                "groupOperator": "AND",
+                "negated": false,
+                "nodes": [
+                {
+                "attributes": {
+
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "String",
+                "property": "FirstName",
+                "operator": "contains",
+                "value": "mia",
+                "caseSensitive": false,
+                "includeEmpty": false,
+                "attributeType": "STANDARD"
+                },
+                {
+                "attributes": {
+                "integrationId": 2
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "String",
+                "property": "d_2_1",
+                "operator": "equals",
+                "value": "Kwas",
+                "caseSensitive": false,
+                "includeEmpty": false,
+                "attributeType": "ADDON"
+                },
+                {
+                "attributes": {
+                "groupName": "ggggggg1"
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "GroupMembership",
+                "group": {
+                "attributes": {
+                "name": "ggggggg1"
+                },
+                "id": "1"
+                },
+                "present": true,
+                "statuses": [
+                "ACTIVE"
+                ]
+                },
+                {
+                "attributes": {
+                "name": "Untitled Container"
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Group",
+                "groupOperator": "OR",
+                "negated": false,
+                "nodes": [
+                {
+                "attributes": {
+                "dateType": "relativeDate",
+                "includeEmpty": false,
+                "showDateOperator": false
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "Transaction",
+                "filters": {
+                "filters0": {
+                "type": "Double",
+                "operator": "equals",
+                "column": {
+                "id": "productQuantity",
+                "name": "productQuantity",
+                "type": "Number",
+                "archived": "false",
+                "dataset": "mappdefaulttransactions"
+                },
+                "value": 2.0
+                }
+                },
+                "datasetName": "mappdefaulttransactions",
+                "timeRange": {
+                "attributes": {
+
+                },
+                "interval": null,
+                "unit": "",
+                "relativeToRunDateType": "onRun",
+                "ignoreYear": false
+                }
+                },
+                {
+                "attributes": {
+                "showDateOperator": true
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "Date",
+                "property": "DateOfBirth",
+                "operator": "equals",
+                "timeRange": {
+                "attributes": {
+
+                },
+                "interval": 5,
+                "unit": "weeksAfter",
+                "relativeToRunDateType": "afterRun",
+                "ignoreYear": false
+                },
+                "includeEmpty": false,
+                "attributeType": "STANDARD"
+                },
+                {
+                "attributes": {
+
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "MessageOpened",
+                "present": true,
+                "group": {
+                "attributes": {
+                "id": "",
+                "name": ""
+                }
+                },
+                "message": {
+                "attributes": {
+                "name": "sadasd",
+                "sendDate": "",
+                "type": "prepared"
+                },
+                "id": "1"
+                }
+                }
+                ]
+                },
+                {
+                "attributes": {
+                "linkType": "anyLink"
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "MessageLinkClicked",
+                "present": true,
+                "group": {
+                "attributes": {
+
+                }
+                },
+                "message": {
+                "attributes": {
+                "name": "sadasd",
+                "sendDate": "",
+                "type": "prepared"
+                },
+                "id": "1"
+                },
+                "link": {
+                "attributes": {
+                "id": "",
+                "name": "",
+                "url": ""
+                }
+                }
+                },
+                {
+                "attributes": {
+
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "RelatedDataCondition",
+                "filters": {
+                "filters0": {
+                "type": "Double",
+                "operator": "equals",
+                "column": {
+                "id": "xxxxxxxxxxxxn",
+                "name": "xxxxxxxxxxxxn",
+                "type": "Number",
+                "archived": "false",
+                "dataset": "xxxxxxxxxxx"
+                },
+                "value": 5.0
+                }
+                },
+                "viewId": "3",
+                "viewName": "rewrew",
+                "attributeName": "user.ISOCountryCode",
+                "datasetName": "xxxxxxxxxxx",
+                "attributeType": "String",
+                "occurencesOperator": "isGreaterThan",
+                "occurencesValue": "0",
+                "includeEmpty": false,
+                "linked": [
+
+                ]
+                }
+                ]
+                }
+                ]
+            </template>
+        </selection-preview>
+    </div>
+    <div class="container">
+        <selection-preview>
+            <template>
+                [
+                {
+                "attributes": {
+                "name": "Untitled Container"
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Group",
+                "groupOperator": "AND",
+                "negated": false,
+                "nodes": [
+                {
+                "attributes": {
+
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "String",
+                "property": "FirstName",
+                "operator": "contains",
+                "value": "mia",
+                "caseSensitive": false,
+                "includeEmpty": false,
+                "attributeType": "STANDARD"
+                },
+                {
+                "attributes": {
+                "integrationId": 2
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "String",
+                "property": "d_2_1",
+                "operator": "equals",
+                "value": "Kwas",
+                "caseSensitive": false,
+                "includeEmpty": false,
+                "attributeType": "ADDON"
+                },
+                {
+                "attributes": {
+                "groupName": "ggggggg1"
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "GroupMembership",
+                "group": {
+                "attributes": {
+                "name": "ggggggg1"
+                },
+                "id": "1"
+                },
+                "present": true,
+                "statuses": [
+                "ACTIVE"
+                ]
+                },
+                {
+                "attributes": {
+                "name": "Untitled Container"
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Group",
+                "groupOperator": "OR",
+                "negated": false,
+                "nodes": [
+                {
+                "attributes": {
+                "dateType": "relativeDate",
+                "includeEmpty": false,
+                "showDateOperator": false
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "Transaction",
+                "filters": {
+                "filters0": {
+                "type": "Double",
+                "operator": "equals",
+                "column": {
+                "id": "productQuantity",
+                "name": "productQuantity",
+                "type": "Number",
+                "archived": "false",
+                "dataset": "mappdefaulttransactions"
+                },
+                "value": 2.0
+                }
+                },
+                "datasetName": "mappdefaulttransactions",
+                "timeRange": {
+                "attributes": {
+
+                },
+                "interval": null,
+                "unit": "",
+                "relativeToRunDateType": "onRun",
+                "ignoreYear": false
+                }
+                },
+                {
+                "attributes": {
+                "showDateOperator": true
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "Date",
+                "property": "DateOfBirth",
+                "operator": "equals",
+                "timeRange": {
+                "attributes": {
+
+                },
+                "interval": 5,
+                "unit": "weeksAfter",
+                "relativeToRunDateType": "afterRun",
+                "ignoreYear": false
+                },
+                "includeEmpty": false,
+                "attributeType": "STANDARD"
+                },
+                {
+                "attributes": {
+
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "MessageOpened",
+                "present": true,
+                "group": {
+                "attributes": {
+                "id": "",
+                "name": ""
+                }
+                },
+                "message": {
+                "attributes": {
+                "name": "sadasd",
+                "sendDate": "",
+                "type": "prepared"
+                },
+                "id": "1"
+                }
+                }
+                ]
+                },
+                {
+                "attributes": {
+                "linkType": "anyLink"
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "MessageLinkClicked",
+                "present": true,
+                "group": {
+                "attributes": {
+
+                }
+                },
+                "message": {
+                "attributes": {
+                "name": "sadasd",
+                "sendDate": "",
+                "type": "prepared"
+                },
+                "id": "1"
+                },
+                "link": {
+                "attributes": {
+                "id": "",
+                "name": "",
+                "url": ""
+                }
+                }
+                },
+                {
+                "attributes": {
+
+                },
+                "id": null,
+                "count": null,
+                "nodeType": "Criterion",
+                "selectorType": "RelatedDataCondition",
+                "filters": {
+                "filters0": {
+                "type": "Double",
+                "operator": "equals",
+                "column": {
+                "id": "xxxxxxxxxxxxn",
+                "name": "xxxxxxxxxxxxn",
+                "type": "Number",
+                "archived": "false",
+                "dataset": "xxxxxxxxxxx"
+                },
+                "value": 5.0
+                }
+                },
+                "viewId": "3",
+                "viewName": "rewrew",
+                "attributeName": "user.ISOCountryCode",
+                "datasetName": "xxxxxxxxxxx",
+                "attributeType": "String",
+                "occurencesOperator": "isGreaterThan",
+                "occurencesValue": "0",
+                "includeEmpty": false,
+                "linked": [
+
+                ]
+                }
+                ]
+                }
+                ]
+            </template>
+        </selection-preview>
+    </div>
+
+</body>
+
+</html>

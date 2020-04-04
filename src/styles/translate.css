@@ -1,0 +1,7 @@
+.loading *{
+    display:none
+}
+
+:local(.translated) {
+    color: greenyellow
+}

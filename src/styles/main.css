@@ -1,0 +1,17 @@
+selection-preview {
+    width:100%;
+}
+sb-t {
+    display: inline;
+}
+sb-s {
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+:local(.translated) {
+    color: greenyellow;
+}
+:local(.in-progress) {
+    display: none;
+}

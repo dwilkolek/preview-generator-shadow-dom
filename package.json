@@ -1,0 +1,25 @@
+{
+  "name": "p-gen",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Damian Wilkołek",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "webpack --watch",
+    "example": "http-server dist",
+    "rest": "node server"
+  },
+  "dependencies": {    
+  },
+  "devDependencies": {
+    "express": "^4.17.1",
+    "handlebars-loader": "^1.7.1",
+    "webpack": "^4.42.1",
+    "css-loader": "^3.4.2",
+    "handlebars": "^4.7.6",
+    "http-server": "^0.12.1",
+    "style-loader": "^1.1.3",
+    "webpack-cli": "^3.3.11"
+  }
+}
