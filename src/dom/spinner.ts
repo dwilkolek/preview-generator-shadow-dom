@@ -1,10 +1,6 @@
-class Spinner extends HTMLElement {
-    constructor() {
-        super();
-    }
-
-    connectedCallback() {
-        this.innerHTML = `<style>
+export default class Spinner extends HTMLElement {
+  connectedCallback() {
+    this.innerHTML = `<style>
         .lds-ellipsis {
             display: inline-block;
             position: relative;
@@ -63,7 +59,5 @@ class Spinner extends HTMLElement {
           
             </style>
             <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>`
-    }
+  }
 }
-
-export default Spinner

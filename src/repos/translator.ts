@@ -1,26 +1,46 @@
 export const DEFAULT_ENTITY_TYPE = 'none';
 
+declare global {
+    interface Window { translationNamespaces: any; }
+}
+
+interface Entry<T> {
+    [key: string]: T
+}
+
+interface EntityEntry<T> {
+    [key: string]: Entry<T>
+}
+
+interface ResolveReject {
+    resolve: (result: string) => void,
+    reject: (result: string) => void
+}
+
+interface Namespace {
+    url: string,
+    isStatic: boolean,
+    isReady: boolean,
+    cache: EntityEntry<string>,
+    timeout: any,
+    nsKeyPromiseListMap: EntityEntry<ResolveReject[]>
+}
+
 class Translator {
+    namespaces: { [key: string]: Namespace } = {};
+    translationNamespaces = window.translationNamespaces;
+    isReadyInterval: number;
 
     constructor() {
-
-        this.nsKeyPromiseListMap = {};
-
-        this.namespaces = {}
-
-        this.translationNamespaces = window.translationNamespaces || {
-            cep, sb, rest
-        };
-
         Object.keys(this.translationNamespaces).map(ns => {
             this.namespaces[ns] = {
                 url: this.translationNamespaces[ns],
                 isStatic: ['cep', 'sb'].indexOf(ns) > -1,
                 isReady: false,
                 timeout: null,
-                cache: {}
+                cache: {},
+                nsKeyPromiseListMap: {}
             };
-            this.nsKeyPromiseListMap[ns] = {};
 
             if (this.namespaces[ns].url && this.namespaces[ns].isStatic) {
                 fetch(this.translationNamespaces[ns])
@@ -33,7 +53,7 @@ class Translator {
                     })
                     .then(() => {
                         setTimeout(() => {
-                            this.staticResolution(ns, this.namespaces[ns].cache)
+                            this.staticResolution(ns, null)
                         })
                     });
             } else {
@@ -46,8 +66,8 @@ class Translator {
         return Object.keys(this.namespaces).map(ns => this.namespaces[ns].isReady).reduce((a, b) => a && b)
     }
 
-    allReadyPromise() {
-        return new Promise((resolve, reject) => {
+    allReadyPromise(): Promise<void> {
+        return new Promise((resolve: () => void) => {
             this.isReadyInterval = setInterval(() => {
                 if (this.checkAllReady()) {
                     resolve();
@@ -56,12 +76,12 @@ class Translator {
         })
     }
 
-    translate(ns, key, entity) {
+    translate(ns: string, key: string, entity: string):Promise<string> {
         return new Promise((resolve, reject) => {
             if (this.translationNamespaces[ns]) {
                 if (this.namespaces[ns].isStatic) {
                     if (this.namespaces[ns].isReady) {
-                        this.namespaces[ns].cache[key] ? resolve(this.namespaces[ns].cache[key]) : reject(`no key=${key} in ns=${ns}`);
+                        this.namespaces[ns].cache[key] ? resolve(this.namespaces[ns].cache[entity][key]) : reject(`no key=${key} in ns=${ns}`);
                     } else {
                         this.addToLookup(ns, entity, key, resolve, reject);
                     }
@@ -75,18 +95,14 @@ class Translator {
         })
     }
 
-    // lookup(key) {
-    //     return this.cache[key];
-    // }
-
-    addToLookup(ns, entity, key, resolve, reject) {
-        if (!this.nsKeyPromiseListMap[ns][entity]) {
-            this.nsKeyPromiseListMap[ns][entity] = {}
+    addToLookup(ns: string, entity: string, key: string, resolve: (result: any) => void, reject: (result: any) => void) {
+        if (!this.namespaces[ns].nsKeyPromiseListMap[entity]) {
+            this.namespaces[ns].nsKeyPromiseListMap[entity] = {}
         }
-        if (!this.nsKeyPromiseListMap[ns][entity][key]) {
-            this.nsKeyPromiseListMap[ns][entity][key] = [];
+        if (!this.namespaces[ns].nsKeyPromiseListMap[entity][key]) {
+            this.namespaces[ns].nsKeyPromiseListMap[entity][key] = [];
         }
-        this.nsKeyPromiseListMap[ns][entity][key].push({
+        this.namespaces[ns].nsKeyPromiseListMap[entity][key].push({
             resolve, reject
         });
         if (!this.namespaces[ns].isStatic) {
@@ -97,12 +113,12 @@ class Translator {
         }
     }
 
-    checkDynamicTranslations(ns) {
-        if (Object.keys(this.nsKeyPromiseListMap[ns]).length == 0) {
+    checkDynamicTranslations(ns: string) {
+        if (Object.keys(this.namespaces[ns].nsKeyPromiseListMap).length == 0) {
             this.namespaces[ns].isReady = true;
             return;
         }
-        const copy = JSON.parse(JSON.stringify(this.nsKeyPromiseListMap[ns]));
+        const copy = JSON.parse(JSON.stringify(this.namespaces[ns].nsKeyPromiseListMap));
         fetch(this.buildFetchUrlForDynamic(ns))
             .then((response) => {
                 return response.json();
@@ -118,24 +134,24 @@ class Translator {
 
     }
 
-    buildFetchUrlForDynamic(ns) {
+    buildFetchUrlForDynamic(ns: string) {
         let url = this.namespaces[ns].url +
-            `?` + Object.keys(this.nsKeyPromiseListMap[ns]).map(entity => {
-                return `${entity}=${Object.keys(this.nsKeyPromiseListMap[ns][entity]).join(',')}`
+            `?` + Object.keys(this.namespaces[ns].nsKeyPromiseListMap).map(entity => {
+                return `${entity}=${Object.keys(this.namespaces[ns].nsKeyPromiseListMap[entity]).join(',')}`
             }).join("&");
         return url;
     }
 
-    staticResolution(ns, cleanUpCopy) {
-        Object.keys(this.nsKeyPromiseListMap[ns]).forEach(entity => {
-            Object.keys(this.nsKeyPromiseListMap[ns][entity]).forEach(key => {
+    staticResolution(ns: string, cleanUpCopy: EntityEntry<ResolveReject[]>) {
+        Object.keys(this.namespaces[ns].nsKeyPromiseListMap).forEach(entity => {
+            Object.keys(this.namespaces[ns].nsKeyPromiseListMap[entity]).forEach(key => {
                 const translation = this.namespaces[ns].cache[entity] && this.namespaces[ns].cache[entity][key];
                 if (translation) {
-                    this.nsKeyPromiseListMap[ns][entity][key].forEach(lookupCallbacks => {
+                    this.namespaces[ns].nsKeyPromiseListMap[entity][key].forEach(lookupCallbacks => {
                         setTimeout(() => lookupCallbacks.resolve(translation));
                     })
                 } else {
-                    this.nsKeyPromiseListMap[ns][entity][key].forEach(lookupCallbacks => {
+                    this.namespaces[ns].nsKeyPromiseListMap[entity][key].forEach(lookupCallbacks => {
                         setTimeout(() => lookupCallbacks.reject(translation));
                     })
                 }
@@ -146,12 +162,12 @@ class Translator {
         if (cleanUpCopy) {
             Object.keys(cleanUpCopy).forEach(entity => {
                 Object.keys(cleanUpCopy[entity]).forEach(key => {
-                    if (this.nsKeyPromiseListMap[ns][entity]) {
-                        delete this.nsKeyPromiseListMap[ns][entity][key];
-                    }                    
+                    if (this.namespaces[ns].nsKeyPromiseListMap[entity]) {
+                        delete this.namespaces[ns].nsKeyPromiseListMap[entity][key];
+                    }
                 })
-                if (Object.keys(this.nsKeyPromiseListMap[ns][entity]).length === 0) {
-                    delete this.nsKeyPromiseListMap[ns][entity];
+                if (Object.keys(this.namespaces[ns].nsKeyPromiseListMap[entity]).length === 0) {
+                    delete this.namespaces[ns].nsKeyPromiseListMap[entity];
                 }
             })
         }

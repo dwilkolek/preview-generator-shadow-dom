@@ -1,10 +1,8 @@
 import Resolver from './resolver';
-import htmlElementsMapping from './html-elements-mapping'
-class Group extends HTMLElement {
-    constructor() {
-        super();
-    }
+import { OPERATOR } from './html-elements-mapping';
+import HTMLElementWithData from './html-element-with-data';
 
+export default class Group extends HTMLElementWithData {
     connectedCallback() {
         const operator = this.data.groupOperator;
         const nodes = this.data.nodes;
@@ -18,12 +16,9 @@ class Group extends HTMLElement {
         this.classList.add('group-node');
     }
 
-    createOperator(operator) {
-        let node = document.createElement(htmlElementsMapping.OPERATOR.selector);
+    createOperator(operator: string) {
+        let node = document.createElement(OPERATOR.selector);
         node.setAttribute("operator", operator);
         return node;
     }
-
 }
-
-export default Group

@@ -1,5 +1,5 @@
 import t from './t';
 
-export default (key, placeholder) => {
+export default (key: string, placeholder: string) => {
     return t('sb', null, key, placeholder)
 }

@@ -1,21 +1,19 @@
 import Resolver from './resolver';
-import styles from './../styles/main.css';
+import * as styles from './../styles/main.css';
 import Translator from '../repos/translator'
-import htmlElementsMapping from './html-elements-mapping';
+import { SPINNER } from './html-elements-mapping';
 console.log(styles.locals)
 class SelectionPreview extends HTMLElement {
-    constructor() {
-        super();
-        this.selectionPlan = null;
-    }
-
+    selectionPlan: any = null
+    shadow: ShadowRoot;
     connectedCallback() {
         setTimeout(() => {
             let progressiveTranslations = this.getAttribute('progressive-translations') && true;
             try {
-                const data = JSON.parse(this.children[0].content.textContent);
-                this.shadow = this.attachShadow({mode: 'open'});
-                
+                const template: HTMLTemplateElement = this.children[0] as HTMLTemplateElement;
+                const data = JSON.parse(template.content.textContent);
+                this.shadow = this.attachShadow({ mode: 'open' });
+
                 /*Styles*/
                 let style = document.createElement('style');
                 style.innerText = styles.toString();
@@ -24,7 +22,7 @@ class SelectionPreview extends HTMLElement {
                 let container = document.createElement('div');
                 container.appendChild(Resolver.for(data[0], true))
                 if (progressiveTranslations) {
-                    let spinner = document.createElement(htmlElementsMapping.SPINNER.selector);
+                    let spinner = document.createElement(SPINNER.selector);
                     this.shadow.appendChild(spinner)
                     container.classList.add(styles.locals['in-progress']);
                     Translator.allReadyPromise().then(() => {
@@ -32,11 +30,9 @@ class SelectionPreview extends HTMLElement {
                         this.shadow.removeChild(spinner);
                     });
                 }
-                
-                this.shadow.appendChild(container)
 
-                // this.shadow.appendChild();
-                
+                this.shadow.appendChild(container);
+
             } catch (ex) {
                 console.error(ex);
             }
