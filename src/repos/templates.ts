@@ -5,6 +5,7 @@ export class TemplateRepo {
     templates: { [key: string]: HbsTemplate } = {};
 
     constructor() {
+        debugger
         this.addTemplate('String', stringTemplate);
     }
 

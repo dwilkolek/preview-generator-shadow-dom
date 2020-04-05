@@ -1,10 +1,10 @@
 import { TRANSLATE } from '../dom/html-elements-mapping';
+import * as  Handlebars from 'handlebars';
 
 export default (ns: string, entity: string, key: string, placeholder: string) => {
     if (entity) {
-        return `<${TRANSLATE.selector} entity="${entity}" ns="${ns}" key="${key}" placeholder="${placeholder}"></${TRANSLATE.selector}>`;
+        return new Handlebars.SafeString(`<${TRANSLATE.selector} entity="${entity}" ns="${ns}" key="${key}" placeholder="${placeholder}"></${TRANSLATE.selector}>`);
     } else {
-        return `<${TRANSLATE.selector} ns="${ns}" key="${key}" placeholder="${placeholder}"></${TRANSLATE.selector}>`;
+        return new Handlebars.SafeString(`<${TRANSLATE.selector} ns="${ns}" key="${key}" placeholder="${placeholder}"></${TRANSLATE.selector}>`);
     }
-
 }
