@@ -56,8 +56,10 @@ class Translator {
                             this.staticResolution(ns, null)
                         })
                     });
-            } else {
-
+            } else if (this.namespaces[ns].url && !this.namespaces[ns].isStatic) {
+                setTimeout(() => {
+                    this.checkDynamicTranslations(ns);
+                }, 1000);
             }
         });
     }
@@ -81,7 +83,7 @@ class Translator {
             if (this.translationNamespaces[ns]) {
                 if (this.namespaces[ns].isStatic) {
                     if (this.namespaces[ns].isReady) {
-                        this.namespaces[ns].cache[key] ? resolve(this.namespaces[ns].cache[entity][key]) : reject(`no key=${key} in ns=${ns}`);
+                        this.namespaces[ns].cache[entity][key] ? resolve(this.namespaces[ns].cache[entity][key]) : reject(`no key=${key} in ns=${ns}`);
                     } else {
                         this.addToLookup(ns, entity, key, resolve, reject);
                     }
@@ -106,6 +108,7 @@ class Translator {
             resolve, reject
         });
         if (!this.namespaces[ns].isStatic) {
+            this.namespaces[ns].isReady = false;
             clearTimeout(this.namespaces[ns].timeout);
             this.namespaces[ns].timeout = setTimeout(() => {
                 this.checkDynamicTranslations(ns)

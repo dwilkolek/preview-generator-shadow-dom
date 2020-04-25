@@ -1,5 +1,6 @@
 const path = require('path');
 console.log("PATH: ", path.join(__dirname, 'src', 'helpers'))
+
 module.exports = {
     mode: 'development',
     entry: './src/index.ts',
@@ -13,7 +14,7 @@ module.exports = {
         poll: 1000
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js'],
+        extensions: [".ts", ".tsx", ".js", ".css"]
     },
     module: {
         rules: [
@@ -28,7 +29,7 @@ module.exports = {
 
                     {
                         loader: 'css-loader', options: {
-                            modules: true,
+                            modules: false,
                         }
                     }
                 ],

@@ -3,15 +3,27 @@ selection-preview {
 }
 sb-t {
     display: inline;
+    color: rgba(0,0,0, 0.7);
+    
+}
+sb-o {
+    margin: 5px 2px;
+    display: inline-block;
+    background: green; color:#fff !important; padding:5px;
+    border-radius: 2px;
+
+}
+sb-o>sb-t {
+    color: #fff;
 }
 sb-s {
     width: 100%;
     display: block;
     text-align: center;
 }
-:local(.translated) {
-    color: greenyellow;
+.translated {
+    color: rgba(0,0,0,1);;
 }
-:local(.in-progress) {
+.in-progress {
     display: none;
 }

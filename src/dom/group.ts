@@ -1,18 +1,26 @@
 import Resolver from './resolver';
 import { OPERATOR } from './html-elements-mapping';
 import HTMLElementWithData from './html-element-with-data';
+import groupHtmlNode from '../templates/group-html-node.hbs';
 
 export default class Group extends HTMLElementWithData {
     connectedCallback() {
         const operator = this.data.groupOperator;
         const nodes = this.data.nodes;
-        this.innerHTML = this.getAttribute('isRoot') ? '' : `<p>${this.data.attributes.name}</p>`;
+
+        let isRoot = this.getAttribute('isRoot');
+        let host: Element = this;
+        if (!isRoot) {
+            this.innerHTML = groupHtmlNode({ name: this.data.name });
+            host = this.getElementsByClassName('message-body')[0]
+        }
         for (let i = 0; i < nodes.length; i++) {
-            this.appendChild(Resolver.for(nodes[i]));
+            host.appendChild(Resolver.for(nodes[i]));
             if (i + 1 !== nodes.length) {
-                this.appendChild(this.createOperator(operator))
+                host.appendChild(this.createOperator(operator))
             }
         }
+
         this.classList.add('group-node');
     }
 

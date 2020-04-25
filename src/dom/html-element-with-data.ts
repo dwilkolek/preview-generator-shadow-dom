@@ -1,5 +1,10 @@
 export default class HTMLElementWithData extends HTMLElement {
-    constructor(protected data?: any){
+    protected data: any;
+    constructor(data?: any){
         super();
+        if (data && data.attributes) {
+            Object.assign(data, data.attributes);
+        }
+        this.data = data;
     }
 }

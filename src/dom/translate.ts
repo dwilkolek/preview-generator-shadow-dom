@@ -1,5 +1,4 @@
 import Translator, { DEFAULT_ENTITY_TYPE } from '../repos/translator'
-import * as styles from '../styles/translate.css';
 export default class Translate extends HTMLElement {
     connectedCallback() {
         const ns = this.getAttribute("ns");
@@ -10,7 +9,7 @@ export default class Translate extends HTMLElement {
 
         Translator.translate(ns, key, entity).then(tranlsation => {
             this.innerHTML = tranlsation;
-            this.classList.add(styles.locals['translated']);
+            this.classList.add('translated');
         }).catch(console.log)
     }
 }

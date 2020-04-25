@@ -1,8 +1,9 @@
 import Resolver from './resolver';
 import * as styles from './../styles/main.css';
+import * as bulmaStyles from 'bulma/css/bulma.min.css';
 import Translator from '../repos/translator'
 import { SPINNER } from './html-elements-mapping';
-console.log(styles.locals)
+
 class SelectionPreview extends HTMLElement {
     selectionPlan: any = null
     shadow: ShadowRoot;
@@ -24,9 +25,9 @@ class SelectionPreview extends HTMLElement {
                 if (progressiveTranslations) {
                     let spinner = document.createElement(SPINNER.selector);
                     this.shadow.appendChild(spinner)
-                    container.classList.add(styles.locals['in-progress']);
+                    container.classList.add('in-progress');
                     Translator.allReadyPromise().then(() => {
-                        container.classList.remove(styles.locals['in-progress']);
+                        container.classList.remove('in-progress');
                         this.shadow.removeChild(spinner);
                     });
                 }
